@@ -7,7 +7,7 @@
 >建议：使用conda虚拟环境进行安装，否则工具包版本不匹配容易产生冲突。\
 >注意：1)Emergency_QC-master不包含疾病分类训练的权重文件，可自己训练或留言获取。\
       2）Macbert预训练模型pytorch_model.bin需[从此](https://huggingface.co/hfl/chinese-macbert-base/tree/main)下载放入hfl/chinese-macbert-base的路径中。\
-      3)关于pytorch的安装，需要根据电脑型号选择是否安装CUDA。\     
+      3)关于pytorch的安装，需要根据电脑型号选择是否安装CUDA。\
       4)原始数据可能存在列名重复的情况，需要修改重复列名。
     
 
