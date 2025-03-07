@@ -8,7 +8,7 @@ from scripts.classify_disease import classify_disease
 def clean(df):
     len1 = len(df.index)
     df=df[df['呼救类型'].isin(['疫情', '疫苗', '突发事件', '患者转院', '救治', '外院社康', '发热', '院内转院', '本院社康','市内转运(非急救)','传染病','转隔离点','一般公共事件', '中心用车','市外转运(非急救)'])]
-    df.dropna(axis=0, subset=["接车地点", "驶向现场时刻", "主诉"], how='any', inplace=True)
+    df.dropna(axis=0, subset=["接车地点", "驶向现场时刻"], how='any', inplace=True)
     df = df[~df.到达医院时刻.isnull()]
     df = df[df['是否正常结束']=='是']
     len2 = len(df.index)
