@@ -2,7 +2,7 @@
 ems120是基于深圳市急救数据开发的用于急救数据分类与地理编码的工具，包括ems-dx与ems-map。
 ### Getting Started:
 1）电脑需安装python3.11，下载项目本地，并从终端或命令行进入该文件夹路径。可通过以下代码实现：
-> `git clone https://github.com/GaoXieQing/ems120` \
+> `git clone https://github.com/GaoXieQing/ems120.git` \
 > `cd ems120`
 
 2）安装requirements.txt中的工具包，可以通过以下代码实现：
