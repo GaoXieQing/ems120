@@ -4,7 +4,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader,Dataset
 from transformers import BertTokenizer,AutoTokenizer,AutoModel,BertModel
 
-# 模型定义（您的模型类）
+# 模型定义
 class Model(nn.Module):
     def __init__(self, CFG):
         super(Model, self).__init__()
@@ -19,7 +19,7 @@ class Model(nn.Module):
         y2 = self.fc2(text)
         return y1, y2
 
-# 数据集定义（您的数据集类）
+# 数据集定义
 class MyDataset(Dataset):
     def __init__(self, dataframe,tokenizer, CFG):
         self.df = dataframe
