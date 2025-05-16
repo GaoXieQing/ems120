@@ -2,6 +2,7 @@ import requests
 import math
 import pandas as pd
 
+import config
 '''import geopandas as gpd
 from shapely.geometry import Point
 '''
@@ -113,9 +114,13 @@ def add_xy(df,key):
 
 if __name__ == "__main__":
 
-    filepath = input('请输入需要地理编码的数据路径:')
-    outputpath = input('请输入输出文件夹路径:')
-    key = input('请输入您的百度地图API密钥:')
+    filepath = config.config['数据路径']
+    outputpath = config.config['输出文件夹路径']
+    key = config.config['高德密钥']
+    print('数据路径：',filepath)
+    print('输出文件夹路径：',outputpath)
+    print('高德密钥：',key)
+    i_k=0
 
     # 读取数据，原始数据前四行可能为数据介绍需要跳过
     try:
@@ -128,13 +133,17 @@ if __name__ == "__main__":
         print('开始添加经纬度与地址类型')
         df['现场地址经度'] = 0
         df['现场地址纬度'] = 0
-        df = add_xy(df,key)
+        #强制转换变量类型
+        df['现场地址经度']=df['现场地址经度'].astype(float)
+        df['现场地址纬度'] = df['现场地址纬度'].astype(float)
+        print('正在使用高德密钥：', key[i_k])
+        df = add_xy(df,key[i_k])
 
     while len(df[df['现场地址经度'] == 0]) != 0:
-        dd = input('是否切换密钥继续(是/否):')
-        if dd == '是':
-            key = input('请输入您的百度地图API密钥:')
-            add_xy(df,key)
+        if i_k <= len(key)-1:
+            i_k+=1
+            print('正在使用高德密钥：', key[i_k])
+            add_xy(df,key[i_k])
         else:
             break
 

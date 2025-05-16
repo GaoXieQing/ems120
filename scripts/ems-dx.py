@@ -7,6 +7,9 @@ from transformers import BertModel, BertTokenizer, AutoModel, AutoTokenizer
 import os
 import pandas as pd
 
+
+import config
+
 # 定义数据集类
 class MyDataset(Dataset):
     def __init__(self, dataframe, tokenizer, CFG):
@@ -38,7 +41,7 @@ class MyDataset(Dataset):
 class Model(nn.Module):
     def __init__(self, CFG):
         super(Model, self).__init__()
-        self.bert = AutoModel.from_pretrained('../hfl/chinese-macbert-base')
+        self.bert = AutoModel.from_pretrained(config.config['模型路径'])
         self.dropout = nn.Dropout(0.5)
         self.fc1 = nn.Linear(self.bert.config.hidden_size, 14)  # 示例分类任务
         self.fc2 = nn.Linear(self.bert.config.hidden_size, 25)  # 示例分类任务
@@ -127,7 +130,7 @@ def classify_disease(df):
 
 
     # 分词器
-    tokenizer = AutoTokenizer.from_pretrained('../hfl/chinese-macbert-base')
+    tokenizer = AutoTokenizer.from_pretrained(config.config['模型路径'])
     # 定义数据集
     test_set = MyDataset(df,tokenizer,CFG)
     # 创建测试数据加载器
@@ -137,7 +140,7 @@ def classify_disease(df):
     print('加载预训练模型')
     model = Model(CFG).to(device)
     print('加载权重文件')
-    model.load_state_dict(torch.load('../hfl/trained_model.pth', map_location=device, weights_only=True))
+    model.load_state_dict(torch.load(config.config['权重路径'], map_location=device, weights_only=True))
     model.eval()
 
     # 初始化预测过程
@@ -167,9 +170,14 @@ def classify_disease(df):
 
 
 if __name__ == "__main__":
-    # 输入需要处理的数据路径，适用于2020年后的数据
-    filepath = input('请输入需要分类的数据路径:')
-    outputpath = input('请输入输出文件夹路径:')
+    print('---------您的配置文件为----------')
+    filepath = config.config['数据路径']
+    outputpath = config.config['输出文件夹路径']
+    print('数据路径：', filepath)
+    print('输出文件夹路径：', outputpath)
+    print('模型路径：', config.config['模型路径'])
+    print('权重路径：', config.config['权重路径'])
+
 
     # 读取数据，原始数据前四行可能为数据介绍需要跳过
     try:

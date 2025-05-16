@@ -4,7 +4,9 @@ import torch.optim as optim
 from torch.utils.data import DataLoader,Dataset
 from transformers import BertTokenizer,AutoTokenizer,AutoModel,BertModel
 
-# 模型定义
+
+import config
+# 模型定义（您的模型类）
 class Model(nn.Module):
     def __init__(self, CFG):
         super(Model, self).__init__()
@@ -19,7 +21,7 @@ class Model(nn.Module):
         y2 = self.fc2(text)
         return y1, y2
 
-# 数据集定义
+# 数据集定义（您的数据集类）
 class MyDataset(Dataset):
     def __init__(self, dataframe,tokenizer, CFG):
         self.df = dataframe
@@ -165,12 +167,12 @@ if __name__ == "__main__":
     import pandas as pd
 
     # 模拟数据
-    df=pd.read_excel('output/processed_2021.xlsx',usecols=['text','label1','label2'])
+    df=pd.read_excel(config.config['训练集路径'],usecols=['text','label1','label2'])
     df = pd.DataFrame(df)
 
 
     # 初始化模型、分词器、数据加载器
-    tokenizer = BertTokenizer.from_pretrained('./hfl/chinese-macbert-base')
+    tokenizer = BertTokenizer.from_pretrained(config.config['模型路径'])
     model = Model(CFG)
     train_loader, valid_loader = get_loaders(df,  CFG)
 
@@ -180,4 +182,4 @@ if __name__ == "__main__":
 
     # 开始训练
     train_model(model, train_loader, valid_loader, optimizer, criterion, CFG)
-    torch.save(model.state_dict(), 'hfl/trained_model.pth')
+    torch.save(model.state_dict(), config.config['训练后的权重路径']+'/my_trained_model.pth')
